@@ -1,4 +1,4 @@
-import { testDriver } from "./functions/testRunner.js ";
+import { testDriver } from "./functions/testDriver.js ";
 
 const main = () => {
   testDriver(2);
