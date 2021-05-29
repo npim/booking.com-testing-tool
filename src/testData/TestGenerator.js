@@ -56,8 +56,4 @@ export default class TestGenerator {
   generateNoOfChildren() {
     return Math.floor(Math.random() * 10); //random number from 0-10
   }
-
-  getExpectedResult() {
-    return "Passed"; //All the generated input parameters here should pass the test
-  }
 }

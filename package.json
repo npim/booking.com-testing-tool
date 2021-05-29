@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "yarn runtest",
-    "runtest": "node src/index.mjs",
+    "runtest": "node --trace-warnings src/index.mjs",
     "lint": "eslint . --ext .js",
     "prettier": "prettier --config .prettierrc src/**/*.js --write"
   },
