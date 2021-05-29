@@ -1,7 +1,7 @@
-import { testRunner } from "./functions/testRunner.js ";
+import { testDriver } from "./functions/testRunner.js ";
 
 const main = () => {
-  testRunner(2);
+  testDriver(2);
 };
 
 main();
