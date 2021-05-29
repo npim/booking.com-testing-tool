@@ -67,12 +67,12 @@ const loadPageTest = async (driver) => {
     await driver.wait(until.elementLocated(searchButton));
 
     return new Promise((resolve) => {
-      resolve({ success: true, message: n / a });
+      resolve({ success: true, message: "n/a" });
     });
   } catch (e) {
     await driver.close();
     return new Promise((resolve) => {
-      resolve({ success: false, message: e });
+      resolve({ success: false, message: e.message });
     });
   }
 };
@@ -186,7 +186,7 @@ const inputPageTest = async (
   } catch (e) {
     await driver.close();
     return new Promise((resolve) => {
-      resolve({ success: false, message: e });
+      resolve({ success: false, message: e.message });
     });
   }
 };
