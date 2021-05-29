@@ -1,0 +1,8 @@
+destinationInput,checkIn,checkOut,noOfAdults,noOfChildren,loadTest,loadTestErrorMessage,inputTest,inputTestErrorMessage
+Casa Grande,2021-05-30,2021-06-04,8,5,true,n/a,false,"Waiting for title to contain ""Casa Grande""
+Wait timed out after 5052ms"
+St. Petersburg,2021-05-30,2021-06-09,3,3,true,n/a,false,"Waiting for title to contain ""St. Petersburg""
+Wait timed out after 5197ms"
+Nashville-Davidson,2021-05-30,2021-06-01,7,6,true,n/a,false,"Waiting for title to contain ""Nashville-Davidson""
+Wait timed out after 5063ms"
+Rancho Cordova,2021-05-30,2021-06-02,6,2,true,n/a,true,n/a
