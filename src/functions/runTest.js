@@ -9,7 +9,10 @@ export const runTest = async (
   noOfChildren
 ) => {
   // Create chrome driver object
+
+  // Create chrome driver object
   const driver = await new Builder().forBrowser("chrome").build();
+  driver.manage().window().maximize();
 
   // Test page loads correct components and inputs return correct results
   const loadTest = await loadPageTest(driver);
@@ -190,3 +193,14 @@ const inputPageTest = async (
     });
   }
 };
+
+// Headless testing
+// const options = new chrome.Options();
+// options.addArguments(
+//   options.headless().windowSize({ width: 1920, height: 1080 })
+// );
+// options.addArguments("--window-size=1920,1080");
+// options.addArguments("--no-sandbox");
+// options.addArguments("--allow-insecure-localhost");
+// options.addArguments("excludeSwitches", ["enable-logging"]);
+// options.addArguments("excludeSwitches", ["enable-logging"]);
