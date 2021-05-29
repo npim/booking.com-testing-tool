@@ -152,7 +152,7 @@ const inputPageTest = async (
     //2.2 TEST-2 RESULT CHECKING (TEST ORACLE, maybe test more)
 
     /*Check the title of the page*/
-    await driver.wait(until.titleContains(destinationInput), 5000);
+    await driver.wait(until.titleContains(destinationInput), 1000);
     /*Check whether the search box is displayed*/
     await driver.wait(
       until.elementLocated(
@@ -182,12 +182,12 @@ const inputPageTest = async (
       until.elementLocated(By.css("div#hotellist_inner.wider_image"))
     );
 
-    //await driver.close();
+    await driver.close();
     return new Promise((resolve) => {
       resolve({ success: true, message: "n/a" });
     });
   } catch (e) {
-    //await driver.close();
+    await driver.close();
     return new Promise((resolve) => {
       resolve({ success: false, message: e.message });
     });
