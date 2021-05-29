@@ -179,12 +179,12 @@ const inputPageTest = async (
       until.elementLocated(By.css("div#hotellist_inner.wider_image"))
     );
 
-    await driver.close();
+    //await driver.close();
     return new Promise((resolve) => {
       resolve({ success: true, message: "n/a" });
     });
   } catch (e) {
-    await driver.close();
+    //await driver.close();
     return new Promise((resolve) => {
       resolve({ success: false, message: e.message });
     });
