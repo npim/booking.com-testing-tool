@@ -63,4 +63,29 @@ export default class TestGenerator {
   generateNoOfChildren() {
     return Math.floor(Math.random() * 10); //random number from 0-10
   }
+
+  alterDestinationName (destination) {
+    const randomSymbols = ['?','<','>','[','!','@','$','%','^','{','~','`','-','*'];
+    const lengthOfRandomSymbols = randomSymbols.length;
+    const alteredDestination = chunk(destination).join(randomSymbols[generateIndex(lengthOfRandomSymbols)]
+        + randomSymbols[generateIndex(lengthOfRandomSymbols)]);
+    return alteredDestination;
+  }
+
+  chunk(destination) {
+    var n = 2;
+    var ret = [];
+    var i;
+    var len;
+
+    for(i = 0, len = destination.length; i < len; i += 2) {
+      ret.push(destination.substr(i, n))
+    }
+    return ret
+  };
+
+  generateIndex (arrLength){
+    return Math.floor(Math.random() * (arrLength-1));
+  }
+
 }
