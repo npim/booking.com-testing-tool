@@ -1,30 +1,31 @@
 import { runTest } from "./runTest.js";
 import TestGenerator from "../testData/TestGenerator.js";
-import { createPreGenInputs } from "../testData/createPreGenInputs.js";
-import { testData } from "../testData/PreGeneratedTestData.js";
+import { testData } from "../testData/preGeneratedTestData.js";
 
 const testGen = new TestGenerator();
 
 export const testDriver = async (numTests) => {
   var resultSet = [];
 
-  // Run preconfigured data tests
+  // Generate random datasets
+  const randomTestData = await testGen.generateTestDataset(numTests);
 
-  for (var i = 0; i < testData.length; i++) {
-    resultSet.push(
-      new Promise((resolve) => {
-        resolve(runTest(...testData[i]));
-      })
-    );
-  }
+  // Test both data sets
+  Promise.all([
+    resultSet.push(...(await runTestBatch(testData))),
+    resultSet.push(...(await runTestBatch(randomTestData))),
+  ]);
 
-  // Run random generation tests
-  // for (var i = 0; i < numTests; i++) {
-  //   resultSet.push(
-  //     new Promise((resolve) => {
-  //       resolve(runTest(...testGen.generateTestDataset()));
-  //     })
-  //   );
-  // }
-  return await Promise.all(resultSet);
+  return resultSet;
+};
+
+const runTestBatch = async (testData) => {
+  const resultSet = [];
+  await (async function loop() {
+    for (let i = 0; i < testData.length; i++) {
+      let res = await runTest(...testData[i]);
+      resultSet.push(res);
+    }
+  })();
+  return resultSet;
 };

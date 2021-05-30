@@ -119,8 +119,7 @@ const inputPageTest = async (
         .findElement(By.css("button[aria-label='Decrease number of Adults']"))
         .click();
     } else if (noOfAdults > defaultAdults) {
-      let i;
-      for (i = 0; i < noOfAdults - 2; i++) {
+      for (let i = 0; i < noOfAdults - 2; i++) {
         await driver
           .findElement(By.css("button[aria-label='Increase number of Adults']"))
           .click();
@@ -131,8 +130,7 @@ const inputPageTest = async (
     const defaultChildren = 0;
 
     if (noOfChildren > defaultChildren) {
-      let i;
-      for (i = 0; i < noOfChildren; i++) {
+      for (let i = 0; i < noOfChildren; i++) {
         await driver
           .findElement(
             By.css("button[aria-label='Increase number of Children']")
@@ -152,20 +150,22 @@ const inputPageTest = async (
     //2.2 TEST-2 RESULT CHECKING (TEST ORACLE, maybe test more)
 
     /*Check the title of the page*/
-    await driver.wait(until.titleContains(destinationInput), 1000);
+    await driver.wait(until.titleContains(destinationInput), 3000);
     /*Check whether the search box is displayed*/
     await driver.wait(
       until.elementLocated(
         By.css(
           "form#frm.sb-searchbox.sb-face-lift.sb-searchbox--painted.-small.js--sb-searchbox"
         )
-      )
+      ),
+      3000
     );
     /*Check whether the no of adults match with the inputted no of adults*/
     await driver.wait(
       until.elementLocated(
         By.css("option[value='" + noOfAdults + "'][selected='selected']")
-      )
+      ),
+      3000
     );
     /*Check whether the no of children match with the inputted no of children*/
     await driver.wait(
@@ -175,11 +175,13 @@ const inputPageTest = async (
     );
     /*Check whether the filter box is displayed*/
     await driver.wait(
-      until.elementLocated(By.css("div.filterbox_options_content"))
+      until.elementLocated(By.css("div.filterbox_options_content")),
+      3000
     );
     /*Check whether the hotel list is displayed*/
     await driver.wait(
-      until.elementLocated(By.css("div#hotellist_inner.wider_image"))
+      until.elementLocated(By.css("div#hotellist_inner.wider_image")),
+      3000
     );
 
     await driver.close();

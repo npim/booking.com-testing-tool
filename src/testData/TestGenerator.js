@@ -1,16 +1,23 @@
 import faker from "faker";
 
 export default class TestGenerator {
-  generateTestDataset() {
-    let newDates = this.generateDates();
+  async generateTestDataset(numTests) {
+    const randomTestData = [];
 
-    return [
-      this.generateDestinationName(),
-      newDates.checkinDateInput,
-      newDates.checkoutDateInput,
-      this.generateNoOfAdults(),
-      this.generateNoOfChildren(),
-    ];
+    await (async function loop() {
+      const testGen = new TestGenerator();
+      for (let i = 0; i < numTests; i++) {
+        let newDates = testGen.generateDates();
+        randomTestData.push([
+          testGen.generateDestinationName(),
+          newDates.checkinDateInput,
+          newDates.checkoutDateInput,
+          testGen.generateNoOfAdults() + "",
+          testGen.generateNoOfChildren() + "",
+        ]);
+      }
+    })();
+    return randomTestData;
   }
 
   generateDestinationName() {
