@@ -4,15 +4,18 @@ import { testData } from "../testData/preGeneratedTestData.js";
 
 const testGen = new TestGenerator();
 
-export const testDriver = async (numTests) => {
+export const testDriver = async (randomNumTests, pregenNumTests) => {
   var resultSet = [];
 
+  // Select x amount from pregen dataset
+  const pregenTestData = testData.slice(0, pregenNumTests);
+
   // Generate random datasets
-  const randomTestData = await testGen.generateTestDataset(numTests);
+  const randomTestData = await testGen.generateTestDataset(randomNumTests);
 
   // Test both data sets
   Promise.all([
-    resultSet.push(...(await runTestBatch(testData))),
+    resultSet.push(...(await runTestBatch(pregenTestData))),
     resultSet.push(...(await runTestBatch(randomTestData))),
   ]);
 
