@@ -5,12 +5,26 @@ import { testData } from "../testData/preGeneratedTestData.js";
 const testGen = new TestGenerator();
 
 export const testDriver = async (randomNumTests, pregenNumTests) => {
-  var resultSet = [];
+  // Create headers for resultSet
+  var resultSet = [
+    [
+      "Dest Name",
+      "Dest Found",
+      "Check In",
+      "Check Out",
+      "Adults",
+      "Children",
+      "Page Loaded",
+      "Load Msg",
+      "Input Success",
+      "Input Msg",
+    ],
+  ];
 
   // Select x amount from pregen dataset
   const pregenTestData = testData.slice(0, pregenNumTests);
 
-  // Generate random datasets
+  // Generate x random datasets
   const randomTestData = await testGen.generateTestDataset(randomNumTests);
 
   // Test both data sets

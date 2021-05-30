@@ -22,6 +22,10 @@ export default class TestGenerator {
 
   generateDestinationName() {
     const destination = faker.address.cityName(); //Generate city name randomly
+    let chance = Math.random();
+    if (chance > 0.5) {
+      return this.alterDestinationName(destination); // Sometimes Garble destination name
+    }
     return destination;
   }
 
@@ -64,11 +68,28 @@ export default class TestGenerator {
     return Math.floor(Math.random() * 10); //random number from 0-10
   }
 
-  alterDestinationName (destination) {
-    const randomSymbols = ['?','<','>','[','!','@','$','%','^','{','~','`','-','*'];
+  alterDestinationName(destination) {
+    const randomSymbols = [
+      "?",
+      "<",
+      ">",
+      "[",
+      "!",
+      "@",
+      "$",
+      "%",
+      "^",
+      "{",
+      "~",
+      "`",
+      "-",
+      "*",
+    ];
     const lengthOfRandomSymbols = randomSymbols.length;
-    const alteredDestination = chunk(destination).join(randomSymbols[generateIndex(lengthOfRandomSymbols)]
-        + randomSymbols[generateIndex(lengthOfRandomSymbols)]);
+    const alteredDestination = this.chunk(destination).join(
+      randomSymbols[this.generateIndex(lengthOfRandomSymbols)] +
+        randomSymbols[this.generateIndex(lengthOfRandomSymbols)]
+    );
     return alteredDestination;
   }
 
@@ -78,14 +99,13 @@ export default class TestGenerator {
     var i;
     var len;
 
-    for(i = 0, len = destination.length; i < len; i += 2) {
-      ret.push(destination.substr(i, n))
+    for (i = 0, len = destination.length; i < len; i += 2) {
+      ret.push(destination.substr(i, n));
     }
-    return ret
-  };
-
-  generateIndex (arrLength){
-    return Math.floor(Math.random() * (arrLength-1));
+    return ret;
   }
 
+  generateIndex(arrLength) {
+    return Math.floor(Math.random() * (arrLength - 1));
+  }
 }

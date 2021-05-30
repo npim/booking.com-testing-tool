@@ -1,5 +1,5 @@
-
-
-Gold Coast,2021-06-16,2021-06-17,4,9,true,n/a,true,n/a
-Gold Coast,2021-06-16,2021-06-17,4,1,true,n/a,true,n/a
-Hoboken,2021-05-31,2021-06-05,7,6,true,n/a,true,n/a
+Dest Name,Dest Found,Check In,Check Out,Adults,Children,Page Loaded,Load Msg,Input Success,Input Msg
+Livonia,Livonia,2021-05-31,2021-06-08,5,1,true,n/a,true,n/a
+Allen,San Miguel de Allende,2021-05-31,2021-06-05,4,4,true,n/a,true,n/a
+Peoria,Peoria,2021-05-31,2021-06-10,7,7,true,n/a,true,n/a
+Ea%>st%> H%>ar%>tf%>or%>d,Saint-François,2021-05-31,2021-06-10,1,6,true,n/a,false,Waiting for title to contain "Ea%>st%> H%>ar%>tf%>or%>d" Wait timed out after 3002ms

@@ -8,40 +8,34 @@ export const runTest = async (
   noOfAdults,
   noOfChildren
 ) => {
-  // Create chrome driver object
-
-  // Create chrome driver object
-  const driver = await new Builder().forBrowser("chrome").build();
-  driver.manage().window().maximize();
-
-  // Test page loads correct components and inputs return correct results
-  const loadTest = await loadPageTest(driver);
-  const inputTest = await inputPageTest(
-    driver,
+  // Create output object
+  let output = {
     destinationInput,
+    destinationOutput: "",
     checkIn,
     checkOut,
     noOfAdults,
-    noOfChildren
-  );
+    noOfChildren,
+    loadTestSuccess: false,
+    loadTestMessage: "n/a",
+    inputTestSuccess: false,
+    inputTestMessage: "n/a",
+  };
+
+  // Create chrome driver object
+  const driver = await new Builder().forBrowser("chrome").build();
+
+  // Test page loads correct components and inputs return correct results
+  await loadPageTest(driver, output);
+  await inputPageTest(driver, output);
 
   // Return outcome for this page search
   return new Promise((resolve) => {
-    resolve([
-      destinationInput,
-      checkIn,
-      checkOut,
-      noOfAdults,
-      noOfChildren,
-      loadTest.success,
-      loadTest.message,
-      inputTest.success,
-      inputTest.message,
-    ]);
+    resolve([Object.values(output)]);
   });
 };
 
-const loadPageTest = async (driver) => {
+const loadPageTest = async (driver, output) => {
   // Find input areas
   const destinationInputBox = By.name("ss");
   const datesInputBox = By.className("xp__dates-inner");
@@ -69,25 +63,29 @@ const loadPageTest = async (driver) => {
     /*Check whether the Search button is located*/
     await driver.wait(until.elementLocated(searchButton));
 
+    // Success
+    output.loadTestSuccess = true;
+
     return new Promise((resolve) => {
-      resolve({ success: true, message: "n/a" });
+      resolve(output);
     });
   } catch (e) {
     await driver.close();
+    // Failed: remove new lines from error message
+    let error = e.message.replace(/\n/g, " ");
+    output.loadTestSuccess = false;
+    output.loadTestMessage = error;
+
     return new Promise((resolve) => {
-      resolve({ success: false, message: e.message });
+      resolve(output);
     });
   }
 };
 
-const inputPageTest = async (
-  driver,
-  destinationInput,
-  checkIn,
-  checkOut,
-  noOfAdults,
-  noOfChildren
-) => {
+const inputPageTest = async (driver, output) => {
+  const { destinationInput, checkIn, checkOut, noOfAdults, noOfChildren } =
+    output;
+
   const datesInputBox = By.className("xp__dates-inner");
   const guestDetailsBox = By.className("xp__input");
   const searchButton = By.className("sb-searchbox__button");
@@ -108,7 +106,7 @@ const inputPageTest = async (
       )
       .click(); //checkout
 
-    //2.1.3 Enter the guest details (automated case?)
+    //2.1.3 Enter the guest details
     await driver.findElement(guestDetailsBox).click(); //Click the guest details box
 
     //2.1.3.1 No of Adults
@@ -139,27 +137,22 @@ const inputPageTest = async (
       }
     }
 
-    //2.1.3.3 No of Rooms
-    //Left as one room because Booking.com will advise the number of rooms automatically depending on the guest numbers
-    //await driver.findElement(By.css("button[aria-label='Increase number of Rooms']")).click();//automated click for + rooms
-    //await driver.findElement(By.css("button[aria-label='Decrease number of Rooms']")).click();//automated click for - rooms
-
     //2.1.4 Click Search button
     await driver.findElement(searchButton).click();
 
-    //2.2 TEST-2 RESULT CHECKING (TEST ORACLE, maybe test more)
+    //2.2 TEST-2 RESULT CHECKING (TEST ORACLE)
+
+    /* Check whether searchBox value matches searched destination */
+    await driver.wait(until.elementLocated(By.id("ss")), 3000);
+    let destFound = await driver.findElement(By.id("ss")).getAttribute("value");
+    output.destinationOutput = destFound;
 
     /*Check the title of the page*/
     await driver.wait(until.titleContains(destinationInput), 3000);
+
     /*Check whether the search box is displayed*/
-    await driver.wait(
-      until.elementLocated(
-        By.css(
-          "form#frm.sb-searchbox.sb-face-lift.sb-searchbox--painted.-small.js--sb-searchbox"
-        )
-      ),
-      3000
-    );
+    await driver.wait(until.elementLocated(By.id("frm")), 3000);
+
     /*Check whether the no of adults match with the inputted no of adults*/
     await driver.wait(
       until.elementLocated(
@@ -184,14 +177,22 @@ const inputPageTest = async (
       3000
     );
 
+    // Success
+    output.inputTestSuccess = true;
+
     await driver.close();
     return new Promise((resolve) => {
-      resolve({ success: true, message: "n/a" });
+      resolve(output);
     });
   } catch (e) {
+    // Failed: remove new lines from error message
+    output.inputTestSuccess = false;
+    let error = e.message.replace(/\n/g, " ");
+    output.inputTestMessage = error;
+
     await driver.close();
     return new Promise((resolve) => {
-      resolve({ success: false, message: e.message });
+      resolve(output);
     });
   }
 };
